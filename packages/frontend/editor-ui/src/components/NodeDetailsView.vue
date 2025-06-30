@@ -46,7 +46,11 @@ const emit = defineEmits<{
 	saveKeyboardShortcut: [event: KeyboardEvent];
 	valueChanged: [parameterData: IUpdateInformation];
 	switchSelectedNode: [nodeTypeName: string];
-	openConnectionNodeCreator: [nodeTypeName: string, connectionType: NodeConnectionType];
+	openConnectionNodeCreator: [
+		nodeTypeName: string,
+		connectionType: NodeConnectionType,
+		connectionIndex?: number,
+	];
 	redrawNode: [nodeName: string];
 	stopExecution: [];
 }>();
@@ -500,8 +504,12 @@ const onSwitchSelectedNode = (nodeTypeName: string) => {
 	emit('switchSelectedNode', nodeTypeName);
 };
 
-const onOpenConnectionNodeCreator = (nodeTypeName: string, connectionType: NodeConnectionType) => {
-	emit('openConnectionNodeCreator', nodeTypeName, connectionType);
+const onOpenConnectionNodeCreator = (
+	nodeTypeName: string,
+	connectionType: NodeConnectionType,
+	connectionIndex: number = 0,
+) => {
+	emit('openConnectionNodeCreator', nodeTypeName, connectionType, connectionIndex);
 };
 
 const close = async () => {
@@ -862,7 +870,7 @@ onBeforeUnmount(() => {
 						target="_blank"
 						@click="onFeatureRequestClick"
 					>
-						<font-awesome-icon icon="lightbulb" />
+						<n8n-icon icon="lightbulb" />
 						{{ i18n.baseText('ndv.featureRequest') }}
 					</a>
 				</template>
